@@ -1,25 +1,26 @@
-name: Enable automerge on dependabot PRs
+name: Perform Automatic Merge
+
+ 
 
 on:
-  # See note below about using pull_request_target
-  pull_request_target:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+ 
 
 jobs:
-  automerge:
-    name: Enable automerge on dependabot PRs
+  merge:
     runs-on: ubuntu-latest
     steps:
-      - name: Enable automerge on dependabot PRs
-        uses: daneden/enable-automerge-action@v1
-        with:
-          # A personal access token that you have generated and saved in the
-          # repo or org’s encrypted secrets
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+ 
+
+      - name: Perform Automatic Merge
+        run: |
+          gh pr merge 9 -m
+        env:
           github-token: ${{secrets.GITHUB_TOKEN}}
-
-          # The name of the PR author to enable automerge for
-          # Defaults to dependabot[bot]
-          allowed-author: "dependabot[bot]"
-
-          # Allowed values: MERGE | SQUASH | REBASE
-          # Defaults to MERGE
-          merge-method: MERGE
