@@ -1,10 +1,10 @@
 name: Perform Automatic Merge
-on:
-  pull_request:
-    types:
-      - opened
-      - synchronize 
+on: pull_request_target
 
+permissions:
+  pull-requests: write
+  contents: write
+  
 jobs:
   automerge:
     name: Enable automerge on dependabot PRs
