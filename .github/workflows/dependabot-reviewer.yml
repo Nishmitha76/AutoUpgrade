@@ -1,14 +1,10 @@
 name: Perform Automatic Merge
 
- 
-
 on:
   pull_request:
     types:
       - opened
-      - synchronize
-
- 
+      - synchronize 
 
 jobs:
   merge:
@@ -17,10 +13,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
- 
-
       - name: Perform Automatic Merge
         run: |
           gh pr merge 9 -m
-        env:
+      - name: Enable automerge on dependabot PRs
+        uses: daneden/enable-automerge-action@v2
+        with:
+          # A personal access token that you have generated and saved in the
+          # repo or org’s encrypted secrets
           github-token: ${{secrets.GITHUB_TOKEN}}
